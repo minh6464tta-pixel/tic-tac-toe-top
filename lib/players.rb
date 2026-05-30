@@ -12,7 +12,6 @@ class Player
   end
 
   def self.map_move(move)
-    move.downcase!
     rank = '2' if move[0] == 'a'
     rank = '1' if move[0] == 'b'
     rank = '0' if move[0] == 'c'
@@ -29,7 +28,7 @@ class Player
 
   def make_move
     puts "#{mark}'s turn. Make a move: "
-    move = gets.chomp
+    move = gets.chomp.downcase
     log_move(move) # log_move
     move
   end

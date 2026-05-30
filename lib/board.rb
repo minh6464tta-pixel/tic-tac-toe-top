@@ -4,10 +4,10 @@ require_relative 'players'
 class Board
   def initialize
     @board_state = [
-      ['c', '_', '_', '_'],
-      ['b', '_', '_', '_'],
-      ['a', '_', '_', '_'],
-      [' ', '1', '2', '3']
+      ['c', '_|', '_|', '_'],
+      ['b', '_|', '_|', '_'],
+      ['a', '_|', '_|', '_'],
+      [' ', '1|', '2|', '3']
     ]
   end
 
@@ -22,6 +22,10 @@ class Board
 
   def update_board(move, mark)
     mapped_move = Player.map_move(move)
-    @board_state[mapped_move[0].to_i][mapped_move[1].to_i] = mark
+    @board_state[mapped_move[0].to_i][mapped_move[1].to_i] = if [1, 2].include?(mapped_move[1].to_i)
+                                                               "\e[4m#{mark}\e[0m|"
+                                                             else
+                                                               "\e[4m#{mark}\e[0m"
+                                                             end
   end
 end

@@ -28,7 +28,29 @@ class GameState
     @board.update_board(move_made_this_turn, player.mark)
   end
 
-  def play # rubocop:disable Metrics/MethodLength
+  def wins(player)
+    puts 'Game over'
+    puts "#{player.mark} won"
+    @is_over = true
+  end
+
+  def draw
+    puts 'Game over'
+    puts "It's a draw"
+    @is_over = true
+  end
+
+  def check_game_over
+    if @moves.length == 9
+      draw
+    elsif @player1.won?
+      wins(@player1)
+    elsif @player2.won?
+      wins(@player2)
+    end
+  end
+
+  def play
     until @is_over
       @board.print_board
       if @is_player1_turn
@@ -37,11 +59,8 @@ class GameState
         move(@player2)
       end
       @is_player1_turn = !@is_player1_turn
-      @is_over = true if @moves.length == 9 || @player1.won? || @player2.won?
+      check_game_over
     end
-
     @board.print_board
-    puts 'Game over!'
-    puts "Congratulations #{@is_player1_turn ? @player2.mark : @player1.mark} won"
   end
 end
